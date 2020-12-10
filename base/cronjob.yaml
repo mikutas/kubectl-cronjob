@@ -1,0 +1,58 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: kubectl-cronjob
+spec:
+  # 01/01 00:00 JST This is sample
+  schedule: 00 15 31 12 *
+  concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 600
+  jobTemplate:
+    spec:
+      completions: 1
+      parallelism: 1
+      template:
+        spec:
+          initContainers:
+          - name: get-repo
+            image: alpine:latest
+            command: ["/bin/sh","-c"]
+            args: ["apk add git && git clone https://${PAT}@github.com/${OWNER}/${REPO} /repo && cd /repo && git fetch origin pull/1/head:tmp"]
+            volumeMounts:
+            - mountPath: /repo
+              name: repo
+            envFrom:
+            - secretRef:
+                name: kubectl-cronjob
+          containers:
+          - name: kubectl
+            image: ghcr.io/tkms0106/just-kubectl:latest
+            args:
+            - "version"
+            volumeMounts:
+            - mountPath: /repo
+              name: repo
+          volumes:
+          - name: repo
+            emptyDir: {}
+          restartPolicy: Never
+          serviceAccountName: kubectl-cronjob
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubectl-cronjob
+  namespace: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kubectl-as-editor
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: edit
+subjects:
+- kind: ServiceAccount
+  name: kubectl-cronjob
+  namespace: default

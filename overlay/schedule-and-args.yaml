@@ -1,0 +1,15 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: kubectl-cronjob
+spec:
+  schedule: 46 07 10 12 *
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: kubectl
+            args:
+            - get
+            - po
