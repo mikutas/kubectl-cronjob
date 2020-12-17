@@ -17,7 +17,7 @@ spec:
           - name: get-repo
             image: alpine:latest
             command: ["/bin/sh","-c"]
-            args: ["apk add git && git clone https://${PAT}@github.com/${OWNER}/${REPO} /repo && cd /repo && git fetch origin pull/1/head:tmp"]
+            args: ["apk add git && git clone https://${PAT}@github.com/${OWNER}/${REPO} /repo && cd /repo && git fetch origin pull/$PR_NUM/head:tmp"]
             volumeMounts:
             - mountPath: /repo
               name: repo
