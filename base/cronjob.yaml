@@ -70,3 +70,4 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: kubectl-cronjob
+  namespace: default
