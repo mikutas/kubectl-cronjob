@@ -56,6 +56,7 @@ rules:
   resources:
   - ingresses
   verbs:
+  - get
   - patch
   - update
 ---
