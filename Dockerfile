@@ -1,7 +1,7 @@
 FROM debian:10 as install
 RUN apt-get update \
  && apt-get install -y curl
-ENV VERSION=v1.18.12
+ENV VERSION=v1.19.9
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/${VERSION}/bin/linux/amd64/kubectl \
  && chmod +x ./kubectl
 
