@@ -27,7 +27,7 @@ spec:
                 name: kubectl-cronjob
           containers:
           - name: kubectl
-            image: ghcr.io/tkms0106/just-kubectl:latest
+            image: ghcr.io/mikutas/just-kubectl:latest
             args:
             - "version"
             volumeMounts:
