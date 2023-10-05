@@ -1,10 +1,10 @@
-FROM debian:12 as install
+FROM debian:12 as aqua
 RUN apt-get update \
  && apt-get install -y curl
-ENV VERSION=v1.19.9
-RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/${VERSION}/bin/linux/amd64/kubectl \
- && chmod +x ./kubectl
+RUN curl -sSfL https://raw.githubusercontent.com/aquaproj/aqua-installer/v2.1.0/aqua-installer | bash -s -- -v v2.12.0
+COPY aqua.yaml /aqua.yaml
+RUN /root/.local/share/aquaproj-aqua/bin/aqua -c /aqua.yaml cp -o /dist kubectl
 
 FROM gcr.io/distroless/base-debian12
-COPY --from=install /kubectl /bin/kubectl
+COPY --from=aqua /dist/kubectl /bin/kubectl
 ENTRYPOINT ["kubectl"]
