@@ -8,6 +8,9 @@ spec:
     spec:
       template:
         spec:
+          #initContainers:
+          #- name: git-repo
+          #  args: ["apk add git && git clone https://${PAT}@github.com/${OWNER}/${REPO} /repo && cd /repo && git fetch origin pull/$PR_NUM/head:tmp"]
           containers:
           - name: kubectl
             args:
