@@ -31,5 +31,5 @@ kustomize build overlay | kubectl apply -f -
 ### Delete
 
 ```
-kustomize build overlay | kubectl apply -f -
+kustomize build overlay | kubectl delete -f -
 ```
