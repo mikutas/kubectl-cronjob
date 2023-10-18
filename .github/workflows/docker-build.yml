@@ -7,7 +7,7 @@ on:
       - aqua.yaml
 
 env:
-  IMAGE_NAME: greeter-server
+  IMAGE_NAME: just-kubectl
 
 jobs:
   build:
