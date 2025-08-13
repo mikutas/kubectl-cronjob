@@ -5,6 +5,6 @@ RUN curl -sSfL https://raw.githubusercontent.com/aquaproj/aqua-installer/v4.0.2/
 COPY aqua.yaml /aqua.yaml
 RUN /root/.local/share/aquaproj-aqua/bin/aqua -c /aqua.yaml cp -o /dist kubectl
 
-FROM gcr.io/distroless/base-debian12
+FROM gcr.io/distroless/base-debian13
 COPY --from=aqua /dist/kubectl /bin/kubectl
 ENTRYPOINT ["kubectl"]
